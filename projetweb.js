@@ -16,9 +16,12 @@ new Vue ({
     methods: {
 
         toggleModal() {
-
             this.displayModal = !this.displayModal
-            this.$refs.createform.reset()
+            console.log(this.$refs.createform)
+            this.titre = ""
+            this.resume = ""
+            this.affect = ""
+            this.client = ""
         },
 
         getForm() {
@@ -36,15 +39,9 @@ new Vue ({
             this.$refs.createform.reset()
         },
 
-
         deleteForm() {
-            console.log(this.gridDatas.length)
-            for (i = this.gridDatas.length-1; i > 0; --i) {
-                console.log("jkhkj")
-                if (this.check === true)
-                this.gridDatas.remove()
+            console.log(this.check.checked)
             }
-        }
     }
 })
 
