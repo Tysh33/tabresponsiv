@@ -35,12 +35,41 @@ th, td {
     padding: 10px 20px;
 }
 
+.ccheckbox {
+    width: 1em;
+}
+
+.cindex {
+    width: 2em;
+}
+
+.ctitre {
+    width: 10em;
+}
+
+.cresume {
+    width: 50em;
+}
+
+.caffect {
+    width: 5em;
+}
+
+.button {
+    display: inline-block;
+    horiz-align: center;
+}
+
 h1 {
     font-size: 50px;
-    color: #777dff;
+    color: #2b82b9;
     text-align: center;
 }
 
+input #checked {
+    margin-left: auto;
+    margin-right: auto"
+}
 
 /* The Modal (background) */
 .modal {

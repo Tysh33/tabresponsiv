@@ -7,7 +7,9 @@
 </head>
 <body>
 <div id="root">
-    <h1>TABLEAU RESPONSIVE</h1>
+
+    <h1>TAKATOU-TICKET</h1>
+
     <table id="tableau">
         <thead>
         <tr>
@@ -18,17 +20,19 @@
             </th>
         </tr>
         </thead>
-        <tbody id='corps'>
-            <tr v-for="data in filteredData">
-                <tr v-for="(data, index) in filteredCustomers" contenteditable="true">
-                <td> <input id="check" type="checkbox" name="suppr"></td>
-                <td> {{ index + 1}}</td>
-                <td> {{ data.titre }}</td>
-                <td> {{ data.resume }}</td>
-                <td> {{ data.affect }}</td>
-                <td> {{ data.client }}</td>
-                <td> {{ data.etat }}</td>
-            </tr>
+        <tbody>
+        <tr v-for="data in filteredData">
+        <tr v-for="(data, index) in filteredCustomers" contenteditable="true">
+            <td id="checkbox" class="ccheckbox">
+                <input id="checked" type="checkbox" name="suppr" @click="gridDatas[index].del = !gridDatas[index].del " :checked="gridDatas[index].del"/>
+            </td>
+            <td id="index" class="cindex"> {{ index + 1}}</td>
+            <td id="titre" class="ctitre"> {{ data.titre }}</td>
+            <td id="resume" class="cresume"> {{ data.resume }}</td>
+            <td id="affect" class="caffect"> {{ data.affect }}</td>
+            <td id="client" class="caffect"> {{ data.client }}</td>
+            <td id="etat" class="caffect"> {{ data.etat }}</td>
+        </tr>
         </tbody>
         <tfoot>
         <tr>
@@ -38,7 +42,7 @@
         </tr>
         </tfoot>
     </table>
-</form>
+    </form>
     Filter: <input type="text" v-model="search"/>
     <input type="button" value="Suppression ticket(s)" @click="deleteForm()">
 

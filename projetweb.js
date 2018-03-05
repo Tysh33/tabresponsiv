@@ -12,10 +12,10 @@ new Vue ({
         order: 'asc',
         gridColumns : [
             {
-            display: "",
+                display: "",
             },
             {
-                display: "Id",
+                display: "ID",
                 field: "id"
             },
             {
@@ -39,10 +39,10 @@ new Vue ({
                 field: "etat"
             }],
         gridDatas: [
-            { id: 'Chuck Norris', titre: 'Infinity', resume: "Americain", affect: "Paul", client:"Toto", etat: "En cours" },
-            { id: 'Bruce Lee', titre: '9000', resume: "Chinois", affect: "Ken", client:"Tata", etat: "En cours"},
-            { id: 'Jackie Chan', titre: '7000', resume: "Hongkongais", affect: "Boris", client:"Titi", etat: "En cours"},
-            { id: 'Jet Li', titre: '8000', resume: "Chinois", affect: "Romain", client:"Tutu", etat: "En cours"}],
+            { titre: 'Demande matériel', resume: "Demande souris pour le service achat suite au nouvel arrivant", affect: "Paul", client:"Service Achat", etat: "Terminé" },
+            { titre: 'Problème horoquartz', resume: "Horoquartz n'est plus accessible, nous ne pouvons plus badger", affect: "Ken", client:"Service RH", etat: "En cours"},
+            { titre: 'Répertoire partagé plus accessible', resume: "Le répertoire partagé share05 sur le serveur bdx-zr10 n'est plus accessible", affect: "Boris", client:"Service Appros", etat: "Terminé"},
+            { titre: 'Demande de licences windows', resume: "De nouveaux alternants vont arriver, des licences windows vont être nécessaires", affect: "Romain", client:"Service Achat", etat: "En cours"}],
     },
     computed: {
         filteredData () {
@@ -60,7 +60,6 @@ new Vue ({
             let self = this
             return this.gridDatas
                 .filter(function(cust){return cust.titre.toLowerCase().indexOf(self.search.toLowerCase())>=0})
-                .filter(function(cust){return cust.resume.toLowerCase().indexOf(self.search.toLowerCase())>=0})
         },
     },
     methods: {
@@ -88,45 +87,30 @@ new Vue ({
         },
         toggleModal() {
             this.displayModal = !this.displayModal
-            this.$refs.createform.reset()
+            this.titre = ""
+            this.resume = ""
+            this.affect = ""
+            this.client = ""
         },
         getForm() {
             let item = {
-                id: (this.gridDatas.length + 1).toString(),
                 titre: this.titre,
                 resume: this.resume,
                 affect: this.affect,
                 client: this.client,
                 etat: "En cours",
             }
-
             this.gridDatas.push(item)
-            this.displayModal = false
-            this.$refs.createform.reset()
+            this.toggleModal()
         },
 
 
         deleteForm() {
-            console.log(this.gridDatas.length)
-            for (i = this.gridDatas.length-1; i > 0; --i) {
-                console.log("jkhkj")
-                if (this.check === true)
-                this.gridDatas.remove()
+            for (let i = this.gridDatas.length - 1; i >= 0; i--) {
+                if (this.gridDatas[i].del ) {
+                    this.gridDatas.splice(i, 1)
+                }
             }
         }
     }
 })
-
-let corps = document.getElementById("corps");
-function test() {
-    arrayColumns = document.getElementById("corps").rows
-    for (i=arrayColumns.length; i >0; --i) {
-        let j = i-1
-        let checkState = document.getElementById("corps").rows[j].cells[0].childNodes[0].checked
-        if (checkState == true) {
-            corps.removeChild(corps.rows[j])
-        }
-    }
-}
-
-
