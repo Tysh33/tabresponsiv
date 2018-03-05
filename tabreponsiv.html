@@ -3,54 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Tableau Responsive</title>
-    <link rel="stylesheet" href="./tab.css">
+    <link rel="stylesheet" href="tab.css">
 </head>
-
 <body>
-
-
 <div id="root">
-
     <h1>TABLEAU RESPONSIVE</h1>
-
     <table id="tableau">
-
         <thead>
         <tr>
-            <th v-for="key in gridColumns" role="columnheader">{{ key }}</th>
+            <th v-for="head in gridColumns" role="columnheader">
+                <span @click="sortBy(head.field)">
+                {{ head.display }}
+                </span>
+            </th>
         </tr>
         </thead>
-
         <tbody id='corps'>
-        <tr v-for="(gridData, index) in gridDatas" contenteditable="true" >
-            <td style="width: 10px"> <input id="checked" type="checkbox" name="suppr" style="margin-left: auto; margin-right: auto" @click=""></td>
-            <td style="width: 2em"> {{index+1}}</td>
-            <td style="width: 10em"> {{gridData.Titre}}</td>
-            <td style="width: 50em"> {{gridData.Resume}}</td>
-            <td style="width: 5em"> {{gridData.Affect}}</td>
-            <td style="width: 5em"> {{gridData.Client}}</td>
-            <td style="width: 5em"> {{gridData.Etat}}</td>
-        </tr>
+            <tr v-for="data in filteredData">
+                <tr v-for="(data, index) in filteredCustomers" contenteditable="true">
+                <td> <input id="check" type="checkbox" name="suppr"></td>
+                <td> {{ index + 1}}</td>
+                <td> {{ data.titre }}</td>
+                <td> {{ data.resume }}</td>
+                <td> {{ data.affect }}</td>
+                <td> {{ data.client }}</td>
+                <td> {{ data.etat }}</td>
+            </tr>
         </tbody>
         <tfoot>
         <tr>
-            <th v-for="key in gridColumns" role="columnheader">{{ key }}</th>
+            <th v-for="head in gridColumns" role="columnheader">
+                {{ head.display }}
+            </th>
         </tr>
         </tfoot>
-        <input type="submit" value="Envoyer" />
     </table>
 </form>
-    <input type="button" value="Suppression ticket(s)" style="display: block; margin-right: auto" @click="deleteForm()">
-
-
-
-
-
-
-
-
-
-
+    Filter: <input type="text" v-model="search"/>
+    <input type="button" value="Suppression ticket(s)" @click="deleteForm()">
 
 
 
@@ -70,7 +60,9 @@
                 <label>Affecté à</label>
 
                 <select v-model="affect" >
-                    <option v-for="gridData in gridDatas"> {{gridData.Affect}}</option>
+                    <option v-for="gridData in gridDatas">
+                        {{gridData.affect}}
+                    </option>
                 </select> <br><br>
 
                 <input v-model="client" placeholder="Nom du client" required> <br><br>
@@ -84,13 +76,8 @@
 
 
 
-
-
-
-
-
 <script src="https://unpkg.com/vue@2.5.13/dist/vue.js"></script>
-<script src="../Projet Web/projetweb.js"></script>
+<script src="projetweb.js"></script>
 
 </body>
 </html>

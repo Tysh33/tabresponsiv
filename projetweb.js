@@ -5,33 +5,99 @@ new Vue ({
         resume: "",
         affect:"",
         client: "",
+        search: "",
         displayModal : false,
-        gridColumns : ["","ID","Titre","Résumé","Affecté à","Client","Etat"],
+        reverse: false,
+        sortKey: 'Id',
+        order: 'asc',
+        gridColumns : [
+            {
+            display: "",
+            },
+            {
+                display: "Id",
+                field: "id"
+            },
+            {
+                display: "Titre",
+                field: "titre"
+            },
+            {
+                display: "Résumé",
+                field: "resume"
+            },
+            {
+                display: "Affecté à",
+                field: "affect"
+            },
+            {
+                display: "Client",
+                field: "client"
+            },
+            {
+                display: "Etat",
+                field: "etat"
+            }],
         gridDatas: [
-            { ID: 'Chuck Norris', Titre: Infinity, Resume: "Americain", Affect: "Paul", Client:"Toto", Etat: "En cours" },
-            { ID: 'Bruce Lee', Titre: 9000, Resume: "Chinois", Affect: "Ken", Client:"Tata", Etat: "En cours"},
-            { ID: 'Jackie Chan', Titre: 7000, Resume: "Hongkongais", Affect: "Boris", Client:"Titi", Etat: "En cours"},
-            { ID: 'Jet Li', Titre: 8000, Resume: "Chinois", Affect: "Romain", Client:"Tutu", Etat: "En cours"}],
+            { id: 'Chuck Norris', titre: 'Infinity', resume: "Americain", affect: "Paul", client:"Toto", etat: "En cours" },
+            { id: 'Bruce Lee', titre: '9000', resume: "Chinois", affect: "Ken", client:"Tata", etat: "En cours"},
+            { id: 'Jackie Chan', titre: '7000', resume: "Hongkongais", affect: "Boris", client:"Titi", etat: "En cours"},
+            { id: 'Jet Li', titre: '8000', resume: "Chinois", affect: "Romain", client:"Tutu", etat: "En cours"}],
+    },
+    computed: {
+        filteredData () {
+            let results = this.gridDatas.sort(this.dynamicSort(this.sortKey))
+            if (this.order === 'desc')
+            {
+                return results.reverse()
+            }
+            else {
+                return results
+            }
+        },
+        filteredCustomers:function()
+        {
+            let self = this
+            return this.gridDatas
+                .filter(function(cust){return cust.titre.toLowerCase().indexOf(self.search.toLowerCase())>=0})
+                .filter(function(cust){return cust.resume.toLowerCase().indexOf(self.search.toLowerCase())>=0})
+        },
     },
     methods: {
-
+        dynamicSort(property) {
+            let sortOrder = 1
+            if(property[0] === "-") {
+                sortOrder = -1
+                property = property.substr(1)
+            }
+            return function (a,b) {
+                var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0
+                return result * sortOrder
+            }
+        },
+        sortBy: function(sortKeys) {
+            if (sortKeys === this.sortKey){
+                if (this.order === 'desc'){
+                    this.order = 'asc'
+                }
+                else {
+                    this.order = 'desc'
+                }
+            }
+            this.sortKey = sortKeys
+        },
         toggleModal() {
             this.displayModal = !this.displayModal
-            console.log(this.$refs.createform)
-            this.titre = ""
-            this.resume = ""
-            this.affect = ""
-            this.client = ""
+            this.$refs.createform.reset()
         },
-
         getForm() {
             let item = {
-                ID: this.gridDatas.length + 1,
-                Titre: this.titre,
-                Resume: this.resume,
-                Affect: this.affect,
-                Client: this.client,
-                Etat: "En cours",
+                id: (this.gridDatas.length + 1).toString(),
+                titre: this.titre,
+                resume: this.resume,
+                affect: this.affect,
+                client: this.client,
+                etat: "En cours",
             }
 
             this.gridDatas.push(item)
@@ -39,9 +105,15 @@ new Vue ({
             this.$refs.createform.reset()
         },
 
+
         deleteForm() {
-            console.log(this.check.checked)
+            console.log(this.gridDatas.length)
+            for (i = this.gridDatas.length-1; i > 0; --i) {
+                console.log("jkhkj")
+                if (this.check === true)
+                this.gridDatas.remove()
             }
+        }
     }
 })
 
