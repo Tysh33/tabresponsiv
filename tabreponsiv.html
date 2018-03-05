@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tableau Responsive</title>
+    <link rel="stylesheet" href="./tab.css">
+</head>
+
+<body>
+
+
+<div id="root">
+
+    <h1>TABLEAU RESPONSIVE</h1>
+
+    <table id="tableau">
+
+        <thead>
+        <tr>
+            <th v-for="key in gridColumns" role="columnheader">{{ key }}</th>
+        </tr>
+        </thead>
+
+        <tbody id='corps'>
+        <tr v-for="(gridData, index) in gridDatas" contenteditable="true" >
+            <td style="width: 10px"> <input id="check" type="checkbox" name="suppr" style="margin-left: auto; margin-right: auto"></td>
+            <td style="width: 2em"> {{index+1}}</td>
+            <td style="width: 10em"> {{gridData.Titre}}</td>
+            <td style="width: 50em"> {{gridData.Resume}}</td>
+            <td style="width: 5em"> {{gridData.Affect}}</td>
+            <td style="width: 5em"> {{gridData.Client}}</td>
+            <td style="width: 5em"> {{gridData.Etat}}</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <th v-for="key in gridColumns" role="columnheader">{{ key }}</th>
+        </tr>
+        </tfoot>
+        <input type="submit" value="Envoyer" />
+    </table>
+</form>
+    <input type="button" value="Suppression ticket(s)" style="display: block; margin-right: auto" @click="deleteForm()">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <button id="myBtn" @click="toggleModal()">Créer formulaire</button>
+    <!-- The Modal -->
+    <div id="myModal" class="modal" v-show="displayModal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" @click="toggleModal()">&times;</span>
+            <h3>Créer un nouveau formulaire</h3>
+            <form @submit.prevent="getForm()" method="post" action="" id="createform" :ref="'createform'">
+                <input v-model="titre" type="text" placeholder="Entrez le titre" required><br><br>
+
+                <textarea v-model="resume" placeholder="Résumé de l'action" required></textarea><br><br>
+
+                <label>Affecté à</label>
+
+                <select v-model="affect" >
+                    <option v-for="gridData in gridDatas"> {{gridData.Affect}}</option>
+                </select> <br><br>
+
+                <input v-model="client" placeholder="Nom du client" required> <br><br>
+
+                <input type="submit" id="formulaire" value="Créer un formulaire">
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<script src="https://unpkg.com/vue@2.5.13/dist/vue.js"></script>
+<script src="../Projet Web/projetweb.js"></script>
+
+</body>
+</html>
