@@ -10,6 +10,12 @@ new Vue ({
         reverse: false,
         sortKey: 'Id',
         order: 'asc',
+        titreDetails: "",
+        resumeDetails: "",
+        clientDetails: "",
+        affectDetails: "",
+        etatDetails: "",
+        displayDetails: false,
         gridColumns : [
             {
                 display: "",
@@ -59,8 +65,8 @@ new Vue ({
         {
             let self = this
             return this.gridDatas
-                .filter(function(cust){return cust.titre.toLowerCase().indexOf(self.search.toLowerCase())>=0})
-        },
+                .filter(function(cust){return cust.affect.toLowerCase().indexOf(self.search.toLowerCase())>=0})
+        }
     },
     methods: {
         dynamicSort(property) {
@@ -103,14 +109,20 @@ new Vue ({
             this.gridDatas.push(item)
             this.toggleModal()
         },
-
-
         deleteForm() {
             for (let i = this.gridDatas.length - 1; i >= 0; i--) {
                 if (this.gridDatas[i].del ) {
                     this.gridDatas.splice(i, 1)
                 }
             }
+        },
+        getDetails(index) {
+            this.titreDetails = this.gridDatas[index].titre
+            this.resumeDetails = this.gridDatas[index].resume
+            this.affectDetails = this.gridDatas[index].affect
+            this.clientDetails = this.gridDatas[index].client
+            this.etatDetails = this.gridDatas[index].etat
+            this.displayDetails = !this.displayDetails
         }
     }
 })

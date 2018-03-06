@@ -2,54 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tableau Responsive</title>
     <link rel="stylesheet" href="tab.css">
 </head>
 <body>
 <div id="root">
 
-    <h1>TAKATOU-TICKET</h1>
-
+    <header id="header">
+        <h1>TAKATOU-TICKET</h1>
+    </header>
+    Filter: <input type="text" v-model="search"/>
+    <button id="myBtn1" @click="toggleModal()">Créer formulaire</button>
+    <input type="button" value="Suppression ticket(s)" @click="deleteForm()">
     <table id="tableau">
-        <thead>
-        <tr>
-            <th v-for="head in gridColumns" role="columnheader">
-                <span @click="sortBy(head.field)">
-                {{ head.display }}
-                </span>
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="data in filteredData">
-        <tr v-for="(data, index) in filteredCustomers" contenteditable="true">
-            <td id="checkbox" class="ccheckbox">
-                <input id="checked" type="checkbox" name="suppr" @click="gridDatas[index].del = !gridDatas[index].del " :checked="gridDatas[index].del"/>
-            </td>
-            <td id="index" class="cindex"> {{ index + 1}}</td>
-            <td id="titre" class="ctitre"> {{ data.titre }}</td>
-            <td id="resume" class="cresume"> {{ data.resume }}</td>
-            <td id="affect" class="caffect"> {{ data.affect }}</td>
-            <td id="client" class="caffect"> {{ data.client }}</td>
-            <td id="etat" class="caffect"> {{ data.etat }}</td>
-        </tr>
-        </tbody>
-        <tfoot>
-        <tr>
-            <th v-for="head in gridColumns" role="columnheader">
-                {{ head.display }}
-            </th>
-        </tr>
-        </tfoot>
+        <div id="split">
+            <thead>
+            <tr>
+                <th v-for="head in gridColumns" role="columnheader">
+                    <span @click="sortBy(head.field)">
+                    {{ head.display }}
+                    </span>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="data in filteredData">
+            <tr v-for="(data, index) in filteredCustomers" contenteditable="true">
+                <td id="checkbox" class="ccheckbox">
+                    <input id="checked" type="checkbox" name="suppr" @click="gridDatas[index].del = !gridDatas[index].del " :checked="gridDatas[index].del"/>
+                </td>
+                <td id="index" class="cindex" @click="getDetails(index)"> {{ index + 1}}</td>
+                <td id="titre" class="ctitre"> {{ data.titre }}</td>
+                <td id="resume" class="cresume"> {{ data.resume }}</td>
+                <td id="affect" class="caffect"> {{ data.affect }}</td>
+                <td id="client" class="caffect"> {{ data.client }}</td>
+                <td id="etat" class="caffect"> {{ data.etat }}</td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th v-for="head in gridColumns" role="columnheader">
+                    {{ head.display }}
+                </th>
+            </tr>
+            </tfoot>
+        </div>
     </table>
     </form>
-    Filter: <input type="text" v-model="search"/>
-    <input type="button" value="Suppression ticket(s)" @click="deleteForm()">
 
+    <div id="detailsModal" class="modal" v-show="displayDetails">
+        <div class="modal-content">
+            <span class="close" @click="displayDetails = false">&times;</span>
+            <h3>Détails de l'intervention</h3>
+            <td v-model="titreDetails">Titre :  {{titreDetails}}</td> <br><br>
+            <td v-model="resumeDetails"> Resume : {{resumeDetails}}</td> <br><br>
+            <td v-model="affectDetails" >Affecté à : {{affectDetails}}</td> <br><br>
+            <td v-model="clientDetails"> Client : {{clientDetails}}</td> <br><br>
+            <td v-model="etatDetails">Etat :  {{etatDetails}}</td> <br><br>
+        </div>
+    </div>
 
-
-
-    <button id="myBtn" @click="toggleModal()">Créer formulaire</button>
     <!-- The Modal -->
     <div id="myModal" class="modal" v-show="displayModal">
         <!-- Modal content -->
@@ -58,19 +71,14 @@
             <h3>Créer un nouveau formulaire</h3>
             <form @submit.prevent="getForm()" method="post" action="" id="createform" :ref="'createform'">
                 <input v-model="titre" type="text" placeholder="Entrez le titre" required><br><br>
-
                 <textarea v-model="resume" placeholder="Résumé de l'action" required></textarea><br><br>
-
                 <label>Affecté à</label>
-
                 <select v-model="affect" >
                     <option v-for="gridData in gridDatas">
                         {{gridData.affect}}
                     </option>
                 </select> <br><br>
-
                 <input v-model="client" placeholder="Nom du client" required> <br><br>
-
                 <input type="submit" id="formulaire" value="Créer un formulaire">
 
             </form>

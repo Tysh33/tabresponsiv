@@ -60,6 +60,7 @@ th, td {
     horiz-align: center;
 }
 
+
 h1 {
     font-size: 50px;
     color: #2b82b9;
@@ -68,7 +69,7 @@ h1 {
 
 input #checked {
     margin-left: auto;
-    margin-right: auto"
+    margin-right: auto;
 }
 
 /* The Modal (background) */
@@ -90,7 +91,7 @@ input #checked {
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 25%; /* Could be more or less, depending on screen size */
 }
 
 /* The Close Button */
